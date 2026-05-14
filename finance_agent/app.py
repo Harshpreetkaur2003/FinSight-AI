@@ -36,316 +36,78 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
-
 /* ─────────────────────────────────────────────
-GLOBAL
+SIDEBAR FULL COLLAPSE FIX
 ───────────────────────────────────────────── */
 
-html, body, .stApp, [class*="css"] {
-    background-color: #0D0F1A !important;
-    color: #E8EAF6 !important;
-    font-family: 'Sora', sans-serif !important;
-}
-
-/* Remove weird top spacing */
-.block-container {
-    padding-top: 2rem !important;
-}
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* ─────────────────────────────────────────────
-SIDEBAR
-───────────────────────────────────────────── */
-
+/* Expanded sidebar */
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg,#13162B 0%,#0D0F1A 100%) !important;
-    border-right: 1px solid rgba(108,99,255,0.25);
+    border-right: 1px solid rgba(108,99,255,0.22);
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Sidebar content */
+[data-testid="stSidebar"] > div:first-child {
+    width: 320px !important;
     min-width: 320px !important;
     max-width: 320px !important;
 }
 
-[data-testid="stSidebar"] * {
-    color: #E8EAF6 !important;
-}
-
-/* Sidebar divider */
-hr {
-    border-color: rgba(108,99,255,0.15) !important;
-}
-
-/* ─────────────────────────────────────────────
-UPLOAD SECTION FIX
-───────────────────────────────────────────── */
-
-[data-testid="stFileUploader"] {
-    border: none !important;
-    background: transparent !important;
-}
-
-[data-testid="stFileUploader"] section {
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-}
-
-[data-testid="stFileUploaderDropzone"] {
-    background: linear-gradient(135deg,#1A1D2E 0%,#13162B 100%) !important;
-    border: 1px dashed rgba(108,99,255,0.4) !important;
-    border-radius: 20px !important;
-    padding: 35px 15px !important;
+/* Main app expands automatically */
+.main .block-container {
     transition: all 0.3s ease !important;
-    text-align: center !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    max-width: 100% !important;
 }
 
-[data-testid="stFileUploaderDropzone"]:hover {
-    border: 1px dashed #6C63FF !important;
-    box-shadow: 0 0 15px rgba(108,99,255,0.25);
-    transform: translateY(-1px);
+/* When sidebar collapsed */
+[data-testid="collapsedControl"] {
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 999999 !important;
 }
 
-/* Remove weird text like keyboard_double */
-[data-testid="stFileUploaderDropzoneInstructions"] {
-    display: none !important;
+/* Remove empty sidebar gap */
+section[data-testid="stSidebar"][aria-expanded="false"] {
+    min-width: 0px !important;
+    width: 0px !important;
 }
 
-/* Upload button */
-[data-testid="stFileUploaderDropzone"] button {
-    background: transparent !important;
-    border: none !important;
-    color: #A78BFA !important;
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    margin-top: 8px !important;
+/* Main content full width */
+section.main > div {
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
 }
 
-/* Upload icon */
-[data-testid="stFileUploaderDropzone"] svg {
-    width: 58px !important;
-    height: 58px !important;
-    color: #8B5CF6 !important;
+/* Smooth layout animation */
+.css-1d391kg,
+.css-12oz5g7 {
+    transition: all 0.3s ease !important;
 }
 
-/* Small helper text */
-small {
-    color: #8B9CBF !important;
+/* Hide sidebar nav shadow when collapsed */
+[data-testid="stSidebar"][aria-expanded="false"] {
+    box-shadow: none !important;
 }
 
-/* ─────────────────────────────────────────────
-BUTTONS
-───────────────────────────────────────────── */
+/* Mobile responsive */
+@media (max-width: 768px) {
 
-.stButton > button {
-    width: 100%;
-    background: linear-gradient(135deg,#6C63FF,#5A54E8) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 14px !important;
-    padding: 0.7rem 1rem !important;
-    font-weight: 600 !important;
-    transition: 0.25s ease !important;
-    box-shadow: 0 4px 12px rgba(108,99,255,0.2);
-}
+    [data-testid="stSidebar"] {
+        width: 280px !important;
+        min-width: 280px !important;
+    }
 
-.stButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(108,99,255,0.35);
-}
-
-/* Download buttons */
-
-.stDownloadButton > button {
-    width: 100%;
-    background: linear-gradient(135deg,#43B97F,#2E9060) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 12px !important;
-    font-weight: 600 !important;
-}
-
-/* ─────────────────────────────────────────────
-INPUTS
-───────────────────────────────────────────── */
-
-.stTextInput input,
-.stTextArea textarea,
-.stNumberInput input,
-.stSelectbox div[data-baseweb="select"] {
-    background-color: #1A1D2E !important;
-    color: #E8EAF6 !important;
-    border: 1px solid rgba(108,99,255,0.35) !important;
-    border-radius: 12px !important;
-}
-
-/* Focus glow */
-.stTextInput input:focus,
-.stTextArea textarea:focus {
-    border: 1px solid #6C63FF !important;
-    box-shadow: 0 0 0 1px #6C63FF !important;
-}
-
-/* ─────────────────────────────────────────────
-METRIC CARDS
-───────────────────────────────────────────── */
-
-.metric-card {
-    background: linear-gradient(135deg,#1A1D2E 0%,#13162B 100%);
-    border: 1px solid rgba(108,99,255,0.22);
-    border-radius: 18px;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 10px;
-    transition: 0.25s ease;
-}
-
-.metric-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(108,99,255,0.45);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-}
-
-.metric-value {
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(90deg,#6C63FF,#FF6584);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.metric-label {
-    font-size: 0.74rem;
-    color: #8B9CBF;
-    margin-top: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-.metric-delta {
-    font-size: 0.78rem;
-    color: #8B9CBF;
-    margin-top: 6px;
-}
-
-/* ─────────────────────────────────────────────
-SECTION TITLES
-───────────────────────────────────────────── */
-
-.section-title {
-    font-size: 1.08rem;
-    font-weight: 700;
-    color: #E8EAF6;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(108,99,255,0.25);
-}
-
-/* ─────────────────────────────────────────────
-CHAT UI
-───────────────────────────────────────────── */
-
-.chat-user {
-    background: linear-gradient(135deg,#2D2060,#1A1D2E);
-    border: 1px solid rgba(108,99,255,0.35);
-    border-radius: 18px 18px 4px 18px;
-    padding: 12px 16px;
-    margin: 8px 0 8px 15%;
-    font-size: 0.92rem;
-}
-
-.chat-ai {
-    background: linear-gradient(135deg,#1A2A1A,#1A1D2E);
-    border: 1px solid rgba(67,185,127,0.3);
-    border-radius: 18px 18px 18px 4px;
-    padding: 12px 16px;
-    margin: 8px 15% 8px 0;
-    font-size: 0.92rem;
-    white-space: pre-wrap;
-}
-
-.chat-sender {
-    font-size: 0.7rem;
-    color: #8B9CBF;
-    margin-bottom: 5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* ─────────────────────────────────────────────
-ADVICE ALERTS
-───────────────────────────────────────────── */
-
-.advice-HIGH {
-    border-left: 4px solid #FF6584;
-    background: rgba(255,101,132,0.08);
-    border-radius: 0 12px 12px 0;
-    padding: 12px 16px;
-    margin: 8px 0;
-}
-
-.advice-MEDIUM {
-    border-left: 4px solid #F7B731;
-    background: rgba(247,183,49,0.08);
-    border-radius: 0 12px 12px 0;
-    padding: 12px 16px;
-    margin: 8px 0;
-}
-
-.advice-LOW {
-    border-left: 4px solid #43B97F;
-    background: rgba(67,185,127,0.08);
-    border-radius: 0 12px 12px 0;
-    padding: 12px 16px;
-    margin: 8px 0;
-}
-
-/* ─────────────────────────────────────────────
-TABLES
-───────────────────────────────────────────── */
-
-[data-testid="stDataFrame"] {
-    border-radius: 16px !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(108,99,255,0.2) !important;
-}
-
-/* ─────────────────────────────────────────────
-TABS
-───────────────────────────────────────────── */
-
-.stTabs [data-baseweb="tab"] {
-    color: #8B9CBF !important;
-    font-weight: 600 !important;
-}
-
-.stTabs [aria-selected="true"] {
-    color: #6C63FF !important;
-    border-bottom: 2px solid #6C63FF !important;
-}
-
-/* ─────────────────────────────────────────────
-SCROLLBAR
-───────────────────────────────────────────── */
-
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #0D0F1A;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #2D2F45;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #6C63FF;
+    .main .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
 }
 
 </style>
