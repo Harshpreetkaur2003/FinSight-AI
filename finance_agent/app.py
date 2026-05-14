@@ -32,82 +32,322 @@ st.set_page_config(
 )
 
 # ── CSS ────────────────────────────────────────────────────────────────────────
+
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Space+Mono&display=swap');
-* { font-family: 'Sora', sans-serif !important; }
-html, body, [class*="css"] { background-color: #0D0F1A !important; color: #E8EAF6; }
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
+
+/* ─────────────────────────────────────────────
+GLOBAL
+───────────────────────────────────────────── */
+
+html, body, .stApp, [class*="css"] {
+    background-color: #0D0F1A !important;
+    color: #E8EAF6 !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+/* Remove weird top spacing */
+.block-container {
+    padding-top: 2rem !important;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ─────────────────────────────────────────────
+SIDEBAR
+───────────────────────────────────────────── */
 
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg,#13162B 0%,#0D0F1A 100%) !important;
-    border-right: 1px solid rgba(108,99,255,0.3);
+    border-right: 1px solid rgba(108,99,255,0.25);
+    min-width: 320px !important;
+    max-width: 320px !important;
 }
-[data-testid="stSidebar"] * { color: #E8EAF6 !important; }
+
+[data-testid="stSidebar"] * {
+    color: #E8EAF6 !important;
+}
+
+/* Sidebar divider */
+hr {
+    border-color: rgba(108,99,255,0.15) !important;
+}
+
+/* ─────────────────────────────────────────────
+UPLOAD SECTION FIX
+───────────────────────────────────────────── */
+
+[data-testid="stFileUploader"] {
+    border: none !important;
+    background: transparent !important;
+}
+
+[data-testid="stFileUploader"] section {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] {
+    background: linear-gradient(135deg,#1A1D2E 0%,#13162B 100%) !important;
+    border: 1px dashed rgba(108,99,255,0.4) !important;
+    border-radius: 20px !important;
+    padding: 35px 15px !important;
+    transition: all 0.3s ease !important;
+    text-align: center !important;
+}
+
+[data-testid="stFileUploaderDropzone"]:hover {
+    border: 1px dashed #6C63FF !important;
+    box-shadow: 0 0 15px rgba(108,99,255,0.25);
+    transform: translateY(-1px);
+}
+
+/* Remove weird text like keyboard_double */
+[data-testid="stFileUploaderDropzoneInstructions"] {
+    display: none !important;
+}
+
+/* Upload button */
+[data-testid="stFileUploaderDropzone"] button {
+    background: transparent !important;
+    border: none !important;
+    color: #A78BFA !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    margin-top: 8px !important;
+}
+
+/* Upload icon */
+[data-testid="stFileUploaderDropzone"] svg {
+    width: 58px !important;
+    height: 58px !important;
+    color: #8B5CF6 !important;
+}
+
+/* Small helper text */
+small {
+    color: #8B9CBF !important;
+}
+
+/* ─────────────────────────────────────────────
+BUTTONS
+───────────────────────────────────────────── */
+
+.stButton > button {
+    width: 100%;
+    background: linear-gradient(135deg,#6C63FF,#5A54E8) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 0.7rem 1rem !important;
+    font-weight: 600 !important;
+    transition: 0.25s ease !important;
+    box-shadow: 0 4px 12px rgba(108,99,255,0.2);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108,99,255,0.35);
+}
+
+/* Download buttons */
+
+.stDownloadButton > button {
+    width: 100%;
+    background: linear-gradient(135deg,#43B97F,#2E9060) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+}
+
+/* ─────────────────────────────────────────────
+INPUTS
+───────────────────────────────────────────── */
+
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input,
+.stSelectbox div[data-baseweb="select"] {
+    background-color: #1A1D2E !important;
+    color: #E8EAF6 !important;
+    border: 1px solid rgba(108,99,255,0.35) !important;
+    border-radius: 12px !important;
+}
+
+/* Focus glow */
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+    border: 1px solid #6C63FF !important;
+    box-shadow: 0 0 0 1px #6C63FF !important;
+}
+
+/* ─────────────────────────────────────────────
+METRIC CARDS
+───────────────────────────────────────────── */
 
 .metric-card {
     background: linear-gradient(135deg,#1A1D2E 0%,#13162B 100%);
-    border: 1px solid rgba(108,99,255,0.25);
-    border-radius: 16px;
-    padding: 18px 20px;
+    border: 1px solid rgba(108,99,255,0.22);
+    border-radius: 18px;
+    padding: 20px;
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    transition: 0.25s ease;
 }
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(108,99,255,0.45);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
 .metric-value {
-    font-size: 1.7rem; font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 700;
     background: linear-gradient(90deg,#6C63FF,#FF6584);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
-.metric-label { font-size: 0.72rem; color: #8B9CBF; text-transform: uppercase;
-                 letter-spacing: 0.08em; margin-top: 4px; }
-.metric-delta { font-size: 0.75rem; color: #8B9CBF; margin-top: 4px; }
+
+.metric-label {
+    font-size: 0.74rem;
+    color: #8B9CBF;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.metric-delta {
+    font-size: 0.78rem;
+    color: #8B9CBF;
+    margin-top: 6px;
+}
+
+/* ─────────────────────────────────────────────
+SECTION TITLES
+───────────────────────────────────────────── */
+
+.section-title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #E8EAF6;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(108,99,255,0.25);
+}
+
+/* ─────────────────────────────────────────────
+CHAT UI
+───────────────────────────────────────────── */
 
 .chat-user {
     background: linear-gradient(135deg,#2D2060,#1A1D2E);
-    border: 1px solid rgba(108,99,255,0.4);
+    border: 1px solid rgba(108,99,255,0.35);
     border-radius: 18px 18px 4px 18px;
-    padding: 12px 16px; margin: 8px 0 8px 15%; font-size: 0.92rem;
+    padding: 12px 16px;
+    margin: 8px 0 8px 15%;
+    font-size: 0.92rem;
 }
+
 .chat-ai {
     background: linear-gradient(135deg,#1A2A1A,#1A1D2E);
-    border: 1px solid rgba(67,185,127,0.35);
+    border: 1px solid rgba(67,185,127,0.3);
     border-radius: 18px 18px 18px 4px;
-    padding: 12px 16px; margin: 8px 15% 8px 0;
-    font-size: 0.92rem; white-space: pre-wrap;
+    padding: 12px 16px;
+    margin: 8px 15% 8px 0;
+    font-size: 0.92rem;
+    white-space: pre-wrap;
 }
-.chat-sender { font-size: 0.7rem; color: #8B9CBF; margin-bottom: 4px;
-               font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
 
-.advice-HIGH  { border-left:4px solid #FF6584; background:rgba(255,101,132,0.08);
-                border-radius:0 12px 12px 0; padding:12px 16px; margin:8px 0; }
-.advice-MEDIUM{ border-left:4px solid #F7B731; background:rgba(247,183,49,0.08);
-                border-radius:0 12px 12px 0; padding:12px 16px; margin:8px 0; }
-.advice-LOW   { border-left:4px solid #43B97F; background:rgba(67,185,127,0.08);
-                border-radius:0 12px 12px 0; padding:12px 16px; margin:8px 0; }
+.chat-sender {
+    font-size: 0.7rem;
+    color: #8B9CBF;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
 
-.section-title { font-size:1.1rem; font-weight:700; color:#E8EAF6;
-                 margin-bottom:12px; padding-bottom:8px;
-                 border-bottom:1px solid rgba(108,99,255,0.3); }
+/* ─────────────────────────────────────────────
+ADVICE ALERTS
+───────────────────────────────────────────── */
 
-.stTextInput input, .stTextArea textarea {
-    background-color: #1A1D2E !important;
-    color: #E8EAF6 !important;
-    border: 1px solid rgba(108,99,255,0.4) !important;
-    border-radius: 10px !important;
+.advice-HIGH {
+    border-left: 4px solid #FF6584;
+    background: rgba(255,101,132,0.08);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 8px 0;
 }
-.stButton > button {
-    background: linear-gradient(135deg,#6C63FF,#5550CC) !important;
-    color: white !important; border: none !important;
-    border-radius: 10px !important; font-weight: 600 !important;
+
+.advice-MEDIUM {
+    border-left: 4px solid #F7B731;
+    background: rgba(247,183,49,0.08);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 8px 0;
 }
-.stDownloadButton > button {
-    background: linear-gradient(135deg,#43B97F,#2E9060) !important;
-    color: white !important; border: none !important;
-    border-radius: 10px !important; font-weight: 600 !important;
+
+.advice-LOW {
+    border-left: 4px solid #43B97F;
+    background: rgba(67,185,127,0.08);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 8px 0;
 }
-.stTabs [data-baseweb="tab"] { color: #8B9CBF !important; font-weight: 600; }
-.stTabs [aria-selected="true"] { color: #6C63FF !important;
-                                   border-bottom: 2px solid #6C63FF !important; }
+
+/* ─────────────────────────────────────────────
+TABLES
+───────────────────────────────────────────── */
+
+[data-testid="stDataFrame"] {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(108,99,255,0.2) !important;
+}
+
+/* ─────────────────────────────────────────────
+TABS
+───────────────────────────────────────────── */
+
+.stTabs [data-baseweb="tab"] {
+    color: #8B9CBF !important;
+    font-weight: 600 !important;
+}
+
+.stTabs [aria-selected="true"] {
+    color: #6C63FF !important;
+    border-bottom: 2px solid #6C63FF !important;
+}
+
+/* ─────────────────────────────────────────────
+SCROLLBAR
+───────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0D0F1A;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2D2F45;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6C63FF;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
